@@ -15,15 +15,10 @@ namespace RayTracing
             {
                 for (int i = 0; i < nx; i++)
                 {
-                    var r = (float)i / nx;
-                    var g = (float)j / ny;
-                    var b = 0.2f;
+                    var col = new Vector3((double)i / nx, (double)j / ny, 0.2);
+                    var icol = 255.99*col;
 
-                    var ir = (int)(255.99*r);
-                    var ig = (int)(255.99*g);
-                    var ib = (int)(255.99*b);
-
-                    bmp.SetPixel(i, j, Color.FromArgb(ir, ig, ib));
+                    bmp.SetPixel(i, j, Color.FromArgb((int)icol.x, (int)icol.y, (int)icol.z));
                 }
             }
 
