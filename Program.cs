@@ -9,7 +9,20 @@ namespace RayTracing
 
   class Program
   {
-    static Vector3 color(Ray r) => Vector3.Lerp((1,1,1), (.5, .7, 1), (r.direction.Normalize().y + 1)/2);
+    static bool hitSphere(Vector3 center, double radius, Ray r)
+    {
+      var oc = r.origin - center;
+      var a = r.direction.lengthSquared;
+      var b = 2 * oc.Dot(r.direction);
+      var c = oc.lengthSquared - radius * radius;
+      var discriminant = b * b - 4 * a * c;
+
+      return discriminant > 0;
+    }
+
+    private static Vector3 sky(Ray r) => Vector3.Lerp((1, 1, 1), (.5, .7, 1), (r.direction.Normalize().y + 1) / 2);
+
+    static Vector3 color(Ray r) => hitSphere((0, 0, -1), .5, r) ? (1, 0, 0) : sky(r);
 
     static void Main(string[] args)
     {
@@ -32,11 +45,11 @@ namespace RayTracing
           var r = new Ray(origin, lowerLeftCorner + u * horizontal + v * vertical);
           var col = color(r).AsColor();
 
-          bmp.SetPixel(i, ny-1-j, col);
+          bmp.SetPixel(i, ny - 1 - j, col);
         }
       }
 
-      bmp.Save("ouput.png");
+      bmp.Save("output.png");
     }
   }
 }

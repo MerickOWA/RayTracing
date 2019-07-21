@@ -11,7 +11,7 @@ namespace RayTracing
     public double x { get; }
     public double y { get; }
     public double z { get; }
-    public double lengthSquared => x*x + y*y + z*z;
+    public double lengthSquared => this.Dot(this);
     public double length => Math.Sqrt(lengthSquared);
 
     public static Vector3 operator + (Vector3 a, Vector3 b) => new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
@@ -32,7 +32,11 @@ namespace RayTracing
 
     public static double Dot(Vector3 a, Vector3 b) => a.x*b.x + a.y*b.y + a.z*b.z;
 
+    public double Dot(Vector3 v) => Dot(this, v);
+
     public static Vector3 Cross(Vector3 a, Vector3 b) => new Vector3(a.y*b.z - a.z*b.y, a.z*b.x-a.x*b.z, a.x*b.y - a.y*b.x);
+
+    public Vector3 Cross(Vector3 v) => Cross(this, v);
 
     public static Vector3 Lerp(Vector3 a, Vector3 b, double t) => a*(1-t) + b*t;
 
