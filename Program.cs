@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace RayTracing
 {
@@ -9,20 +10,38 @@ namespace RayTracing
 
   class Program
   {
-    static bool hitSphere(Vector3 center, double radius, Ray r)
+    static double? hitSphere(Vector3 center, double radius, Ray r)
     {
       var oc = r.origin - center;
       var a = r.direction.lengthSquared;
       var b = 2 * oc.Dot(r.direction);
       var c = oc.lengthSquared - radius * radius;
       var discriminant = b * b - 4 * a * c;
+      if (discriminant < 0)
+      {
+        return null;
+      }
 
-      return discriminant > 0;
+      return (-b - Math.Sqrt(discriminant)) / 2*a;
     }
 
     private static Vector3 sky(Ray r) => Vector3.Lerp((1, 1, 1), (.5, .7, 1), (r.direction.Normalize().y + 1) / 2);
 
-    static Vector3 color(Ray r) => hitSphere((0, 0, -1), .5, r) ? (1, 0, 0) : sky(r);
+    static Vector3 color(Ray r) 
+    {
+      Vector3 circleCenter = (0,0,-1);
+      var circleRadius = .5;
+
+      var t = hitSphere(circleCenter, circleRadius, r);
+      if (t == null)
+      {
+        return sky(r);
+      }
+
+      var normal = (t.Value*r - circleCenter).Normalize();
+
+      return normal/2 + (.5,.5,.5);
+    }
 
     static void Main(string[] args)
     {
