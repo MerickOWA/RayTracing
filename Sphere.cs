@@ -9,7 +9,7 @@ namespace RayTracing
     Vector3 center { get; }
     double radius { get; }
 
-    (double t, Vector3 position, Vector3 normal)? hit(Ray ray, double min, double max)
+    public HitRecord? Hit(Ray ray, double min, double max)
     {
       var oc = ray.origin - center;
       var b = -2 * oc.Dot(ray.direction);
@@ -22,12 +22,24 @@ namespace RayTracing
 
       var sqrtDiscriminant = Math.Sqrt(discriminant);
       var t = (b - sqrtDiscriminant) / 2;
+
+      // Ensure t falls within min/max
       if (t > max)
       {
+        // Way too far out, no point checking the other intersection
+        // it would be even farther away
         return null;
       }
-
-      //TODO finish min/max checks
+      else if (t < min)
+      {
+        // Try the second possible intersection
+        t += sqrtDiscriminant;
+        if (t < min)
+        {
+          // Can't get inside min
+          return null;
+        }
+      }
 
       var position = t*ray;
       var normal = (position - center).Normalize();

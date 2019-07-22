@@ -1,7 +1,7 @@
 namespace RayTracing
 {
-  interface Hitable
+  public interface Hitable
   {
-    (double t, Vector3 position, Vector3 normal)? hit(Ray ray, double min, double max);
+    HitRecord? Hit(Ray ray, double min, double max);
   }
 }
