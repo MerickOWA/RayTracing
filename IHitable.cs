@@ -1,6 +1,6 @@
-namespace RayTracing
+﻿namespace RayTracing
 {
-  public interface Hitable
+  public interface IHitable
   {
     HitRecord? Hit(Ray ray, double min, double max);
   }

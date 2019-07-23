@@ -1,19 +1,19 @@
-using System;
+﻿using System;
 
 namespace RayTracing
 {
-  struct Sphere : Hitable
+  struct Sphere : IHitable
   {
-    Sphere(Vector3 center, double radius) => (this.center, this.radius) = (center, radius);
+    public Sphere(Vector3 center, double radius) => (Center, Radius) = (center, radius);
 
-    Vector3 center { get; }
-    double radius { get; }
+    Vector3 Center { get; }
+    double Radius { get; }
 
     public HitRecord? Hit(Ray ray, double min, double max)
     {
-      var oc = ray.origin - center;
-      var b = -2 * oc.Dot(ray.direction);
-      var c = oc.lengthSquared - radius * radius;
+      var oc = ray.Origin - Center;
+      var b = -2 * oc.Dot(ray.Direction);
+      var c = oc.LengthSquared - Radius * Radius;
       var discriminant = b * b - 4 * c;
       if (discriminant < 0)
       {
@@ -41,10 +41,10 @@ namespace RayTracing
         }
       }
 
-      var position = t*ray;
-      var normal = (position - center).Normalize();
+      var position = t * ray;
+      var normal = (position - Center).Normalize();
 
       return (t, position, normal);
     }
-  }    
+  }
 }
