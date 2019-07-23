@@ -2,7 +2,7 @@
 
 namespace RayTracing
 {
-  struct Sphere : IHitable
+  public struct Sphere : IHitable
   {
     public Sphere(Vector3 center, double radius) => (Center, Radius) = (center, radius);
 

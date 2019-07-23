@@ -18,5 +18,10 @@ namespace RayTracing
     {
       return a.Origin + a.Direction * b;
     }
+
+    public static implicit operator Ray((Vector3 origin, Vector3 direction) tuple)
+    {
+      return new Ray(tuple.origin, tuple.direction);
+    }
   }
 }

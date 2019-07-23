@@ -23,31 +23,35 @@ namespace RayTracing
 
     static void Main(string[] _)
     {
-      var nx = 200;
-      var ny = 100;
+      const int nx = 200;
+      const int ny = 100;
+      const int ns = 100;
 
+      var rand = new Random();
       var bmp = new Bitmap(nx, ny, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
 
-      Vector3 lowerLeftCorner = (-2, -1, -1);
-      Vector3 horizontal = (4, 0, 0);
-      Vector3 vertical = (0, 2, 0);
-      var origin = Vector3.Zero;
       var world = new HitableList
       {
         new Sphere((0, 0, -1), .5),
         new Sphere((0, -100.5, -1), 100)
       };
 
+      var cam = new Camera();
+
       for (var j = 0; j < ny; j++)
       {
         for (var i = 0; i < nx; i++)
         {
-          var u = (double)i / nx;
-          var v = (double)j / ny;
-          var r = new Ray(origin, lowerLeftCorner + u * horizontal + v * vertical);
-          var col = Color(r, world).AsColor();
+          var col = Vector3.Zero;
+          for (var s = 0; s < ns; s++)
+          {
+            var u = (i + rand.NextDouble()) / nx;
+            var v = (j + rand.NextDouble()) / ny;
+            var r = cam.GetRay(u, v);
+            col = col + Color(r, world);
+          }
 
-          bmp.SetPixel(i, ny - 1 - j, col);
+          bmp.SetPixel(i, ny - 1 - j, (col / ns).AsColor());
         }
       }
 
