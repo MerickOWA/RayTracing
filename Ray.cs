@@ -2,7 +2,7 @@
 
 namespace RayTracing
 {
-  public struct Ray
+  public readonly struct Ray
   {
     public Ray(Vector3 origin, Vector3 direction) => (Origin, Direction) = (origin, direction.Normalize());
 

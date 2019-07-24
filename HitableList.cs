@@ -5,7 +5,7 @@ namespace RayTracing
 {
   public class HitableList : List<IHitable>, IHitable
   {
-    public HitRecord? Hit(Ray ray, double min, double max)
+    public HitRecord? Hit(in Ray ray, double min, double max)
     {
       HitRecord? closest = null;
       foreach (var item in this)

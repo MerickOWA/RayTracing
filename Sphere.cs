@@ -2,14 +2,14 @@
 
 namespace RayTracing
 {
-  public struct Sphere : IHitable
+  public readonly struct Sphere : IHitable
   {
     public Sphere(Vector3 center, double radius) => (Center, Radius) = (center, radius);
 
-    Vector3 Center { get; }
-    double Radius { get; }
+    public Vector3 Center { get; }
+    public double Radius { get; }
 
-    public HitRecord? Hit(Ray ray, double min, double max)
+    public HitRecord? Hit(in Ray ray, double min, double max)
     {
       var oc = ray.Origin - Center;
       var b = -2 * oc.Dot(ray.Direction);

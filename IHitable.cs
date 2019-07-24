@@ -2,6 +2,6 @@
 {
   public interface IHitable
   {
-    HitRecord? Hit(Ray ray, double min, double max);
+    HitRecord? Hit(in Ray ray, double min, double max);
   }
 }

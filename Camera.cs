@@ -1,6 +1,6 @@
-namespace RayTracing
+﻿namespace RayTracing
 {
-  public struct Camera
+  public readonly struct Camera
   {
     public Vector3 Origin => (0, 0, 0);
     public Vector3 LowerLeft => (-2, -1, -1);

@@ -11,11 +11,11 @@ namespace RayTracing
 
   class Program
   {
-    private static Vector3 Sky(Ray r) => Vector3.Lerp((1, 1, 1), (.5, .7, 1), (r.Direction.Normalize().Y + 1) / 2);
+    private static Vector3 Sky(in Ray r) => Vector3.Lerp((1, 1, 1), (.5, .7, 1), (r.Direction.Normalize().Y + 1) / 2);
 
     private static Vector3 NormalToColor(Vector3 normal) => (normal + Vector3.One) / 2;
 
-    static Vector3 Color(Ray r, IHitable world)
+    static Vector3 Color(in Ray r, IHitable world)
     {
       var t = world.Hit(r, 0, double.MaxValue);
       return t != null ? NormalToColor(t.Value.Normal) : Sky(r);
@@ -57,10 +57,7 @@ namespace RayTracing
 
       bmp.Save("output.png");
 
-      var fileopener = new Process();
-      fileopener.StartInfo.FileName = "explorer";
-      fileopener.StartInfo.Arguments = "\"output.png\"";
-      fileopener.Start();
+      new Process { StartInfo = { FileName = "explorer", Arguments = "\"output.png\"" } }.Start();
     }
   }
 }

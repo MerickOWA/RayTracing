@@ -2,7 +2,7 @@
 
 namespace RayTracing
 {
-  public struct Vector3
+  public readonly struct Vector3
   {
 
     public Vector3(double x, double y, double z) => (X, Y, Z) = (x, y, z);
