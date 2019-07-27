@@ -35,8 +35,8 @@ namespace RayTracing
 
     static void Main(string[] _)
     {
-      const int nx = 1000;
-      const int ny = 500;
+      const int nx = 200;
+      const int ny = 100;
       const int ns = 100;
       const int maxDepth = 50;
 
@@ -49,7 +49,7 @@ namespace RayTracing
         new Sphere((-1, 0, -1), -.45, new Dielectric(1.5)),
       };
 
-      var cam = new Camera();
+      var cam = new Camera(Vector3.Zero, (0, 0, -1), (0, 1, 0), 90, (double)nx/ny);
       var pixelData = new byte[nx*ny*3];
 
       Parallel.For(0, ny*nx, pixel => 
