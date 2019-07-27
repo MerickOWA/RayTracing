@@ -4,10 +4,11 @@ namespace RayTracing
 {
   public readonly struct Sphere : IHitable
   {
-    public Sphere(Vector3 center, double radius) => (Center, Radius) = (center, radius);
+    public Sphere(Vector3 center, double radius, IMaterial material) => (Center, Radius, Material) = (center, radius, material);
 
     public Vector3 Center { get; }
     public double Radius { get; }
+    public IMaterial Material { get; }
 
     public HitRecord? Hit(in Ray ray, double min, double max)
     {
@@ -42,9 +43,9 @@ namespace RayTracing
       }
 
       var position = t * ray;
-      var normal = (position - Center).Normalize();
+      var normal = ((position - Center) / Radius).AssumeIsUnitVector();
 
-      return (t, position, normal);
+      return (t, position, normal, Material);
     }
   }
 }

@@ -4,10 +4,10 @@ namespace RayTracing
 {
   public readonly struct Ray
   {
-    public Ray(Vector3 origin, Vector3 direction) => (Origin, Direction) = (origin, direction.Normalize());
+    public Ray(Vector3 origin, Vector3 direction) => (Origin, Direction) = (origin, direction);
 
     public Vector3 Origin { get; }
-    public Vector3 Direction { get; }
+    public UnitVector3 Direction { get; }
 
     public static Vector3 operator *(double a, Ray b)
     {
