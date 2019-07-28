@@ -8,9 +8,9 @@ namespace RayTracing
     public UnitVector3(in Vector3 v) => (X, Y, Z) = v / v.Length;
     private UnitVector3(double x, double y, double z) => (X, Y, Z) = (x, y, z);
 
-    public double X { get; }
-    public double Y { get; }
-    public double Z { get; }
+    public readonly double X;
+    public readonly double Y;
+    public readonly double Z;
 
     public static UnitVector3 operator -(in UnitVector3 a) => new UnitVector3(-a.X, -a.Y, -a.Z);
 
