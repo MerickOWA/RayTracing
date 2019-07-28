@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RayTracing": {
+      "commandName": "Project",
+      "commandLineArgs": "-runtwice"
+    }
+  }
+}
