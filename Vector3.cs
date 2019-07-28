@@ -38,8 +38,11 @@ namespace RayTracing
     public double Dot(in UnitVector3 v) => Dot(this, v);
 
     public static Vector3 Cross(in Vector3 a, in Vector3 b) => new Vector3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
+    public static Vector3 Cross(in Vector3 a, in UnitVector3 b) => new Vector3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
+    public static Vector3 Cross(in UnitVector3 a, in Vector3 b) => new Vector3(a.Y * b.Z - a.Z * b.Y, a.Z * b.X - a.X * b.Z, a.X * b.Y - a.Y * b.X);
 
     public Vector3 Cross(in Vector3 v) => Cross(this, v);
+    public Vector3 Cross(in UnitVector3 v) => Cross(this, v);
 
     public static Vector3 Lerp(in Vector3 a, in Vector3 b, double t) => a * (1 - t) + b * t;
 

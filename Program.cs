@@ -12,7 +12,7 @@ namespace RayTracing
   class Program
   {
     static int seed = Environment.TickCount;
-    static readonly ThreadLocal<Random> rand = new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));    
+    static readonly ThreadLocal<Random> randomFactory = new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));    
 
     private static Vector3 Sky(in Ray r) => Vector3.Lerp((1, 1, 1), (.5, .7, 1), (r.Direction.Y + 1) / 2);
 
@@ -49,7 +49,7 @@ namespace RayTracing
         new Sphere((-1, 0, -1), -.45, new Dielectric(1.5)),
       };
 
-      var cam = new Camera(Vector3.Zero, (0, 0, -1), (0, 1, 0), 90, (double)nx/ny);
+      var cam = new Camera((-2, 2, 1), (0, 0, -1), (0, 1, 0), 90, (double)nx/ny);
       var pixelData = new byte[nx*ny*3];
 
       Parallel.For(0, ny*nx, pixel => 
@@ -57,7 +57,7 @@ namespace RayTracing
       {
         var j = pixel / nx;
         var i = pixel % nx;
-        var random = rand.Value;
+        var random = randomFactory.Value;
 
         var col = Vector3.Zero;
         for (var s = 0; s < ns; s++)
@@ -80,7 +80,10 @@ namespace RayTracing
       bmp.Save("output.png");
       handle.Free();
 
-      new Process { StartInfo = { FileName = "explorer", Arguments = "\"output.png\"" } }.Start();
+      using (var process = new Process { StartInfo = { FileName = "explorer", Arguments = "\"output.png\"" } })
+      {
+        process.Start();
+      }
     }
   }
 }

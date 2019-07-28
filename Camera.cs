@@ -11,7 +11,7 @@ namespace RayTracing
       var halfWidth = aspectRatio * halfHeight;
 
       Origin = lookFrom;
-      var w = lookAt - lookFrom;
+      var w = (lookAt - lookFrom).Normalize();
       var u = w.Cross(up);
       var v = u.Cross(w);
       UpperLeft = Origin + -halfWidth*u + halfHeight*v + w;
