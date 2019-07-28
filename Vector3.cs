@@ -71,5 +71,6 @@ namespace RayTracing
 
     public static readonly Vector3 Zero = (0, 0, 0);
     public static readonly Vector3 One = (1, 1, 1);
+    public static readonly Vector3 Up = (0, 1, 0);
   }
 }

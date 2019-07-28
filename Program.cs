@@ -33,23 +33,70 @@ namespace RayTracing
       return scactter.Value.attenuation*Color(scactter.Value.scatterRay, world, random, depth-1);
     }
 
+    private static IHitable RandomScene(Random random)
+    {
+      var world = new HitableList
+      {
+        new Sphere((0, -1000, 0), 1000, new Lambertian((.5, .5, .5))),
+        new Sphere((0, 1, 0), 1, new Dielectric(1.5)),
+        new Sphere((-4, 1, 0), 1, new Lambertian((.4, .2, .1))),
+        new Sphere((4, 1, 0), 1, new Metal((.7, .6, .5), 0))
+      };
+
+      for (var a = -11; a < 11; a++)
+      {
+        for (var b = -11; b < 11; b++)
+        {
+          Vector3 center = (a + .9 * random.NextDouble(), .2, b + .9 * random.NextDouble());
+          if ((center - (4, .2, 0)).Length <= .9) continue;
+
+          world.Add(new Sphere(center, .2, RandomMaterial(random)));
+        }
+      }
+
+      return world;
+    }
+
+    private static IMaterial RandomMaterial(Random random)
+    {
+      var materialChoice = random.NextDouble();
+      if (materialChoice < .8)
+      {
+        return new Lambertian(random.NextVector() * random.NextVector());
+      }
+      else if (materialChoice < .95)
+      {
+        return new Metal((random.NextVector() + Vector3.One) / 2, random.NextDouble() / 2);
+      }
+      else
+      {
+        return new Dielectric(1.5);
+      }
+    }
+
     static void Main(string[] _)
     {
-      const int nx = 200;
-      const int ny = 100;
+      const int nx = 1200;
+      const int ny = 800;
       const int ns = 100;
       const int maxDepth = 50;
 
-      var world = new HitableList
-      {
-        new Sphere((0, 0, -1), .5, new Lambertian((0.1, 0.2, 0.5))),
-        new Sphere((0, -100.5, -1), 100, new Lambertian((0.8, 0.8, 0.0))),
-        new Sphere((1, 0, -1), .5, new Metal((0.8, 0.6, 0.2), 0.5)),
-        new Sphere((-1, 0, -1), .5, new Dielectric(1.5)),
-        new Sphere((-1, 0, -1), -.45, new Dielectric(1.5)),
-      };
+      //var world = new HitableList
+      //{
+      //  new Sphere((0, 0, -1), .5, new Lambertian((0.1, 0.2, 0.5))),
+      //  new Sphere((0, -100.5, -1), 100, new Lambertian((0.8, 0.8, 0.0))),
+      //  new Sphere((1, 0, -1), .5, new Metal((0.8, 0.6, 0.2), 0.5)),
+      //  new Sphere((-1, 0, -1), .5, new Dielectric(1.5)),
+      //  new Sphere((-1, 0, -1), -.45, new Dielectric(1.5)),
+      //};
+      var world = RandomScene(randomFactory.Value);
 
-      var cam = new Camera((-2, 2, 1), (0, 0, -1), (0, 1, 0), 90, (double)nx/ny);
+      Vector3 lookFrom = (13,2,3);
+      Vector3 lookAt = (0, 0, 0);
+      var distanceToFocus = 10;
+      var aperture = 0.1;
+
+      var cam = new Camera(lookFrom, lookAt, Vector3.Up, 20, (double)nx/ny, aperture, distanceToFocus);
       var pixelData = new byte[nx*ny*3];
 
       Parallel.For(0, ny*nx, pixel => 
@@ -64,7 +111,7 @@ namespace RayTracing
         {
           var u = (i + random.NextDouble()) / nx;
           var v = (j + random.NextDouble()) / ny;
-          var r = cam.GetRay(u, v);
+          var r = cam.GetRay(u, v, random);
           col += Color(r, world, random, maxDepth);
         }
 

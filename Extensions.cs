@@ -9,6 +9,16 @@ namespace RayTracing
 
     public static Vector3 NextVector(this Random r) => (r.NextDouble(), r.NextDouble(), r.NextDouble());
 
+    public static Vector3 NextUnitDisk(this Random r)
+    {
+      Vector3 p;
+      do
+      {
+        p = 2 * (Vector3)(r.NextDouble(), r.NextDouble(), 0) - (1, 1, 0);
+      } while (p.LengthSquared > 1);
+      return p;
+    }
+
     public static Vector3 NextUnitSphere(this Random r)
     {
       Vector3 p;
