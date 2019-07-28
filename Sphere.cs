@@ -6,9 +6,9 @@ namespace RayTracing
   {
     public Sphere(Vector3 center, double radius, IMaterial material) => (Center, Radius, Material) = (center, radius, material);
 
-    public Vector3 Center { get; }
-    public double Radius { get; }
-    public IMaterial Material { get; }
+    public readonly Vector3 Center;
+    public readonly double Radius;
+    public readonly IMaterial Material;
 
     public HitRecord? Hit(in Ray ray, double min, double max)
     {
