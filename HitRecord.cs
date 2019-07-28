@@ -4,10 +4,10 @@
   {
     public HitRecord(double distance, Vector3 position, UnitVector3 normal, IMaterial material) => (Distance, Position, Normal, Material) = (distance, position, normal, material);
 
-    public double Distance { get; }
-    public Vector3 Position { get; }
-    public UnitVector3 Normal { get; }
-    public IMaterial Material { get; }
+    public readonly Vector3 Position;
+    public readonly UnitVector3 Normal;
+    public readonly IMaterial Material;
+    public readonly double Distance;
 
     public static implicit operator HitRecord((double distance, Vector3 position, UnitVector3 normal, IMaterial material) tuple)
     {
