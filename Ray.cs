@@ -6,8 +6,8 @@ namespace RayTracing
   {
     public Ray(Vector3 origin, Vector3 direction) => (Origin, Direction) = (origin, direction);
 
-    public Vector3 Origin { get; }
-    public UnitVector3 Direction { get; }
+    public readonly Vector3 Origin;
+    public readonly UnitVector3 Direction;
 
     public static Vector3 operator *(double a, Ray b)
     {
